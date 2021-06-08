@@ -10,18 +10,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./todos.component.css'],
 })
 export class TodosComponent implements OnInit, OnDestroy {
-  todos: Todo[] = [];
   faTrashAlt = faTrashAlt;
   private _sub!: Subscription;
 
-  constructor(private _todoService: TodoService) {}
+  constructor(public _todoService: TodoService) {}
 
-  ngOnInit(): void {
-    this._sub = this._todoService.getTodos().subscribe((todos: Todo[]) => {
-      this.todos = todos;
-      console.log(this.todos);
-    });
-  }
+  ngOnInit(): void {}
 
   changeCompleted(todo: Todo) {
     this._todoService.changeStatus(todo);

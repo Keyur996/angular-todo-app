@@ -9,44 +9,39 @@ export class TodoService {
   todos: Todo[] = [];
 
   constructor() {
-    this.todos = [
-      {
-        id: '111',
-        title: 'Learn PHP',
-        isCompleted: true,
-        date: new Date(),
-      },
-      {
-        id: '222',
-        title: 'Learn React',
-        isCompleted: false,
-        date: new Date(),
-      },
-      {
-        id: '333',
-        title: 'Learn Angular',
-        isCompleted: false,
-        date: new Date(),
-      },
-    ];
+    this.todos = this.getData('todos');
   }
 
-  getTodos(): Observable<Todo[]> {
-    return of(this.todos);
+  getTodos() {
+    return this.getData('todos');
   }
 
   addTodo(todo: Todo): void {
     this.todos.push(todo);
+    this.setData('todos', this.todos);
   }
 
   changeStatus(todo: Todo): void {
     this.todos.map((t) => {
       if (t.id === todo.id) t.isCompleted = !t.isCompleted;
     });
+    this.setData('todos', this.todos);
   }
 
   deleteTodo(todo: Todo): void {
     const index = this.todos.findIndex((t) => t.id === todo.id);
-    if (index !== -1) this.todos.splice(index, 1);
+    if (index !== -1) {
+      this.todos.splice(index, 1);
+      this.setData('todos', this.todos);
+    }
+  }
+
+  private getData(key: string) {
+    let data = JSON.parse(localStorage.getItem(key)!);
+    return data ? data : [];
+  }
+
+  private setData(key: string, value: Todo[]) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 }

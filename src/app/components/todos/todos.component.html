@@ -1,6 +1,9 @@
 <ul class="list-group w-100">
-  <ng-container *ngFor="let todo of todos">
-    <li class="list-group-item d-flex justify-content-between">
+  <ng-container *ngIf="_todoService.getTodos().length > 0; else noTodos">
+    <li
+      class="list-group-item d-flex justify-content-between"
+      *ngFor="let todo of _todoService.getTodos()"
+    >
       <span>
         <input
           (change)="changeCompleted(todo)"
@@ -20,4 +23,7 @@
       </span>
     </li>
   </ng-container>
+  <ng-template #noTodos>
+    <p class="text-white">No Todos Available</p>
+  </ng-template>
 </ul>
